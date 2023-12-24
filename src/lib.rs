@@ -38,17 +38,8 @@ pub async fn run() {
   loop {
     for _ in 0..CYCLES {
       board.run_cycle(keyboard.current_scan_code);
-      //keyboard.run_cycle(&mut board);
-      //printer.run_cycle(&mut board);
     }
-    
-    /*
-    keyboard.run_sleep_cycle(&mut board);
-    printer.run_sleep_cycle(&mut board);
 
-    side_panel::print_ports(&board);
-    side_panel::print_shifts(&board);
-    */
     display.run_refresh_cycle(&board);
     if counter == 2 { //Runs every 150 milliseconds. This is necessary when there is an invalid result / flashing.
       keyboard.run_refresh_cycle();
