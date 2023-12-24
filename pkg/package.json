@@ -1,0 +1,12 @@
+{
+  "name": "hp35",
+  "version": "0.1.0",
+  "files": [
+    "hp35_bg.wasm",
+    "hp35.js",
+    "hp35.d.ts"
+  ],
+  "module": "hp35.js",
+  "types": "hp35.d.ts",
+  "sideEffects": false
+}
