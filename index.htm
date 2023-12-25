@@ -117,7 +117,7 @@
         } else if(e.keyCode == 61 | e.keyCode == 13) { //=
           pendingClicks.push(62);
         } else if(e.keyCode == 48 || e.keyCode == 96) { //0
-          pendingClicks.push(30);
+          pendingClicks.push(36);
         } else if(e.keyCode == 49 || e.keyCode == 97) { //1
           pendingClicks.push(28);
         } else if(e.keyCode == 50 || e.keyCode == 98) { //2
@@ -136,18 +136,18 @@
           pendingClicks.push(51);
         } else if(e.keyCode == 57 || e.keyCode == 105) { //9
           pendingClicks.push(50);
-        } else if(e.keyCode == 80) { //PI
-          pendingClicks.push(34);
-        } else if(e.keyCode == 45 || e.keyCode == 109) { //-
-          pendingClicks.push(54);
         } else if(e.keyCode == 42 || e.keyCode == 106) { //*
           pendingClicks.push(30);
         } else if(e.keyCode == 43 || e.keyCode == 107) { //+
           pendingClicks.push(22);
-        } else if(e.keyCode == 190 || e.keyCode == 110) { //.
-          pendingClicks.push(35);
+        } else if(e.keyCode == 45 || e.keyCode == 109) { //-
+          pendingClicks.push(54);
         } else if(e.keyCode == 47 || e.keyCode == 111) { //divide
           pendingClicks.push(38); event.preventDefault(); return false;
+        } else if(e.keyCode == 80) { //PI
+          pendingClicks.push(34);
+        } else if(e.keyCode == 190 || e.keyCode == 110) { //.
+          pendingClicks.push(35);
         }
       };
       
@@ -243,7 +243,7 @@
       It is my dream to build a chip library for anyone to be able to emulate any chip or board. Therefore, the code is subdivided into several layers of emulation:<br />
       
       <ul>
-        <li><a href="https://github.com/veniamin-ilmer/hp35">HP35 GUI</a></li>
+        <li><a href="https://github.com/veniamin-ilmer/hp35">HP-35 GUI</a></li>
         <li><a href="https://github.com/veniamin-ilmer/boards">Boards library</a></li>
         <li><a href="https://github.com/veniamin-ilmer/chips">Chips library</a></li>
       </ul>
