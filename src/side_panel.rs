@@ -1,5 +1,6 @@
-use boards::hp35;
+use boards::hp_classic;
 use chips::cpu::hp_anr;
+use chips::shifter;
 
 pub struct SidePanel {
   anr: web_sys::HtmlCollection,
@@ -21,7 +22,7 @@ impl SidePanel {
     }
   }
   
-  pub fn print_anr(&mut self, board: &hp35::Board) {
+  pub fn print_anr(&mut self, board: &hp_classic::Board) {
     let tr_list = &self.anr;
     print_reg(&mut self.current_regs[0], tr_list, board.anr.a, 1);
     print_reg(&mut self.current_regs[1], tr_list, board.anr.b, 2);
@@ -32,7 +33,7 @@ impl SidePanel {
     print_reg(&mut self.current_regs[6], tr_list, board.anr.m, 7);
   }
   
-  pub fn print_cnt(&mut self, board: &hp35::Board) {
+  pub fn print_cnt(&mut self, board: &hp_classic::Board) {
     let td_list = self.cnt.item(1).expect("can't get tr").children();
     if let Some(td) = td_list.item(1) {
       td.set_text_content(Some(&format!("{:04o}", board.cnt.next_address)));
@@ -48,7 +49,7 @@ impl SidePanel {
     self.print_status(board);
   }
   
-  fn print_status(&mut self, board: &hp35::Board) {
+  fn print_status(&mut self, board: &hp_classic::Board) {
     if self.current_status != board.cnt.status {
       let td_list = self.status.item(1).expect("can't get tr").children();
       for i in 0..12 {
@@ -70,11 +71,11 @@ fn print_reg(current_reg: &mut hp_anr::Register, tr_list: &web_sys::HtmlCollecti
     let td_list = tr_list.item(row_index).expect("can't get tr").children();
     for i in 0..14 {
       let col_index = i as u32 + 2;
-      let nibble = new_reg.get_nibble(true);
+      let nibble = new_reg.read_nibble(shifter::Direction::Left);
       if let Some(td) = td_list.item(col_index) {
         td.set_text_content(Some(&format!("{:X}", nibble)));
       }
-      new_reg.rotate_with_nibble(nibble, true);
+      new_reg.shift_with_nibble(shifter::Direction::Left, nibble);
     }
     *current_reg = new_reg.clone();
   }

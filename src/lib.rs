@@ -4,9 +4,9 @@
 
 use wasm_bindgen::prelude::*;
 
-use boards::hp35::Board;
+use boards::hp_classic::Board;
 
-mod rom35v4;
+mod rom35packed;
 mod display;
 mod keyboard;
 mod side_panel;
@@ -27,7 +27,7 @@ const CYCLES: i32 = REFRESH_RATE * 1000 / CLOCK_RATE;
 pub async fn run() {
   std::panic::set_hook(Box::new(console_error_panic_hook::hook)); //Panics appear more descriptive in the browser console.
 
-  let mut board = Board::new(rom35v4::ROM.to_vec());
+  let mut board = Board::new(rom35packed::ROM.to_vec());
   let mut side_panel = side_panel::SidePanel::new();
   let mut keyboard = keyboard::Keyboard::new();
   let mut display = display::Display::new();

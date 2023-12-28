@@ -37,6 +37,7 @@ dependencies = [
  "chips",
  "log",
  "simple_logger",
+ "wasm-log",
 ]
 
 [[package]]

@@ -1,4 +1,5 @@
-use boards::hp35::Board;
+use boards::hp_classic::Board;
+use chips::shifter;
 
 pub(super) struct Display {
   display: web_sys::Element,
@@ -22,17 +23,17 @@ impl Display {
     let new_str = if board.anr.display_on {
       let mut a = board.anr.a.clone();
       let mut b = board.anr.b.clone();
-      let sign = a.get_nibble(true);
+      let sign = a.read_nibble(shifter::Direction::Left);
       buffer.push(if sign.value() == 9 { '-' } else { ' ' });
-      a.rotate_with_nibble(sign, true);
+      a.shift_with_nibble(shifter::Direction::Left, sign);
       for location in 0..14 {
-        let mask = b.get_nibble(true);
+        let mask = b.read_nibble(shifter::Direction::Left);
         if mask.value() == 2 {
           buffer.push('.');
-          b.rotate_with_nibble(mask, true);
+          b.shift_with_nibble(shifter::Direction::Left, mask);
           continue;
         }
-        let digit = a.get_nibble(true);
+        let digit = a.read_nibble(shifter::Direction::Left);
         buffer.push(match mask.value() {
           9 => ' ',
           _ => if location == 11 {
@@ -41,8 +42,8 @@ impl Display {
             (digit.value() + 48) as char
           },
         });
-        a.rotate_with_nibble(digit, true);
-        b.rotate_with_nibble(mask, true);
+        a.shift_with_nibble(shifter::Direction::Left, digit);
+        b.shift_with_nibble(shifter::Direction::Left, mask);
       }
       buffer.iter().collect::<String>()
     } else {
