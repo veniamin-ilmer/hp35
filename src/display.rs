@@ -23,27 +23,23 @@ impl Display {
     let new_str = if board.anr.display_on {
       let mut a = board.anr.a.clone();
       let mut b = board.anr.b.clone();
-      let sign = a.read_nibble(shifter::Direction::Left);
-      buffer.push(if sign.value() == 9 { '-' } else { ' ' });
-      a.shift_with_nibble(shifter::Direction::Left, sign);
+      let direction = shifter::Direction::Left;
       for location in 0..14 {
-        let mask = b.read_nibble(shifter::Direction::Left);
-        if mask.value() == 2 {
-          buffer.push('.');
-          b.shift_with_nibble(shifter::Direction::Left, mask);
-          continue;
-        }
-        let digit = a.read_nibble(shifter::Direction::Left);
+        let mask = b.read_nibble(direction);
+        let digit = a.read_nibble(direction);
         buffer.push(match mask.value() {
           9 => ' ',
-          _ => if location == 11 {
+          _ => if location == 11 || location == 0 { //Signs
             if digit.value() == 9 { '-' } else { ' ' }
           } else {
             (digit.value() + 48) as char
           },
         });
-        a.shift_with_nibble(shifter::Direction::Left, digit);
-        b.shift_with_nibble(shifter::Direction::Left, mask);
+        if mask.value() == 2 {
+          buffer.push('.');
+        }
+        a.shift_with_nibble(direction, digit);
+        b.shift_with_nibble(direction, mask);
       }
       buffer.iter().collect::<String>()
     } else {
