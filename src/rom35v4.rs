@@ -1,3 +1,6 @@
+///This ROM was originally copied from Eric Smith.
+///https://www.hpmuseum.org/forum/thread-19853-post-171746.html#pid171746
+
 use arbitrary_int::u10;
 
 pub const ROM: [u10; 768] = [

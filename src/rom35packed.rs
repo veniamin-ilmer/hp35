@@ -1,3 +1,6 @@
+///This ROM was originally copied from Eric Smith.
+///https://www.hpmuseum.org/forum/thread-19853-post-171746.html#pid171746
+
 //768 * 10 / 8 = 960
 pub const ROM: [u8; 960] = [
   0b11011101,
