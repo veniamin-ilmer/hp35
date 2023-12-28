@@ -26,6 +26,7 @@
     #numbers td { padding:0; width: 555px; }
     button { width: 100%; height: 100%; font-size: 14px }
     #numbers button { font-size:22px; background-color: #DDA }
+    #numbers button:hover { background-color: #BB8 }
     .operation { font-size:22px }
     .cyan { background-color: #0AF; color: #DDD }
     .cyan:hover { background-color: #08E}
@@ -150,7 +151,7 @@
           pendingClicks.push(35);
         }
       };
-      
+      labelsTriggerButtons();
     }, false);
 
     //This function will be called by the WASM code.
@@ -160,24 +161,41 @@
         return pending;
       }
     }
+    
+    function labelsTriggerButtons() {
+      var labels = document.querySelectorAll('label');
+
+      // Add mouseover event listener to all labels
+      labels.forEach(function (label) {
+        label.addEventListener('mousedown', function () {
+          // Get the associated button ID from the "for" attribute
+          var buttonId = label.getAttribute('for');
+          var button = document.getElementById(buttonId);
+
+          // Check if the button exists before triggering the mousedown event
+          if (button) {
+            // Manually trigger the mousedown event on the button
+            triggerEvent(button, 'mousedown');
+          }
+        });
+      });
+
+      // Function to manually trigger an event on an element
+      function triggerEvent(element, eventType) {
+        var event = new Event(eventType, {
+          bubbles: true,
+          cancelable: true,
+        });
+        element.dispatchEvent(event);
+      }
+    }
     </script>
   </head>
   <body>
   <div style="display: flex" class="main_flex">
     <aside class="monospace desktoponly">
-    <table id="anr">
-      <tr><th>A & R</th><th></th><th>Sign</th><th colspan=10>Mantissa</th><th colspan=3>Exponent</th>
-      <tr><th>Register A</th><td></td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td></tr>
-      <tr><th>Register B</th><td></td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td></tr>
-      <tr><th>Register C</th><td></td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td></tr>
-      <tr><th>Register D</th><td></td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td></tr>
-      <tr><th>Register E</th><td></td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td></tr>
-      <tr><th>Register F</th><td></td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td></tr>
-      <tr><th>Register M</th><td></td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td></tr>
-    </table>
-    <div style="height:15px"></div>
     <table id="cnt">
-      <tr><th>C & T</th></tr>
+      <tr><th>Contrl & Timing</th></tr>
       <tr><th>Current Address</th><td>0000</td></tr>
       <tr><th>Return Address</th><td>0000</td></tr>
       <tr><th>Pointer</th><td>0</td></tr>
@@ -185,6 +203,17 @@
     <table id="status">
       <tr><th></th><th>0</th><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>7</th><th>8</th><th>9</th><th>A</th><th>B</th><th>C</th><th>D</th></tr>
       <tr><th>Status</th><td>○</td><td>○</td><td>○</td><td>○</td><td>○</td><td>○</td><td>○</td><td>○</td><td>○</td><td>○</td><td>○</td><td>○</td><td>○</td><td>○</td></tr>
+    </table>
+    <div style="height:15px"></div>
+    <table id="anr">
+      <tr><th>Arith & Regs</th><th></th><th>Sign</th><th colspan=10>Mantissa</th><th colspan=3>Exponent</th>
+      <tr><th>Register A</th><td></td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td></tr>
+      <tr><th>Register B</th><td></td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td></tr>
+      <tr><th>Register C</th><td></td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td></tr>
+      <tr><th>Register D</th><td></td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td></tr>
+      <tr><th>Register E</th><td></td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td></tr>
+      <tr><th>Register F</th><td></td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td></tr>
+      <tr><th>Register M</th><td></td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td></tr>
     </table>
     </aside>
     <article style="flex: 1; display:flex; flex-direction: column; align-items: center; padding-right: 20px">
